@@ -1,6 +1,6 @@
 {
-  "name": "ktrace",
-  "version": "1.0.0",
+  "name": "@ked3/ktrace",
+  "version": "1.0.1",
   "description": "跨平台埋点分析SDK",
   "main": "dist/ktrace.js",
   "types": "dist/index.d.ts",
