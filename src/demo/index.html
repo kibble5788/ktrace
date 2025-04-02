@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTrace埋点SDK演示</title>
+  <style>
+    body {
+      font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    h1 {
+      color: #0066cc;
+    }
+    button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+    }
+    button:hover {
+      background-color: #0055aa;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    pre {
+      background-color: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      overflow: auto;
+    }
+    #event-log {
+      height: 200px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #0066cc;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <p>正在加载SDK...</p>
+  </div>
+
+  <header>
+    <h1>KTrace埋点SDK演示</h1>
+    <p>一个轻量级、跨平台的埋点分析SDK</p>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h2>基本事件追踪</h2>
+      <button id="btn-track-event">追踪事件</button>
+      <button id="btn-track-page">追踪页面</button>
+      <button id="btn-identify">设置用户ID</button>
+    </div>
+
+    <div class="card">
+      <h2>错误监控</h2>
+      <button id="btn-js-error">触发JS错误</button>
+      <button id="btn-promise-error">触发Promise错误</button>
+      <button id="btn-ajax-error">触发AJAX错误</button>
+    </div>
+
+    <div class="card">
+      <h2>事件日志</h2>
+      <pre id="event-log"></pre>
+      <button id="btn-clear-log">清除日志</button>
+    </div>
+  </div>
+
+  <script>
+    // 检查KTrace是否加载完成
+    function waitForKTrace() {
+      if (typeof KTrace !== 'undefined') {
+        // 隐藏加载层
+        document.getElementById('loading-overlay').style.display = 'none';
+        
+        // 将KTrace实例存储到window.ktrace中
+        window.ktrace = KTrace;
+        
+        // 初始化SDK并设置事件处理
+        initDemo();
+      } else {
+        // 继续等待
+        setTimeout(waitForKTrace, 100);
+      }
+    }
+    
+    // 初始化演示
+    function initDemo() {
+      // 初始化SDK
+      window.ktrace.init({
+        appId: 'demo-app',
+        serverUrl: 'http://localhost:3000',
+        debug: true,
+        enableAutoTrack: true
+      });
+
+      // 设置日志函数
+      const originalConsoleLog = console.log;
+      const logElement = document.getElementById('event-log');
+      
+      console.log = function() {
+        // 调用原始的console.log
+        originalConsoleLog.apply(console, arguments);
+        
+        // 添加到日志区域
+        const args = Array.from(arguments);
+        const message = args.map(arg => {
+          if (typeof arg === 'object') {
+            return JSON.stringify(arg, null, 2);
+          }
+          return String(arg);
+        }).join(' ');
+        
+        if (message.includes('[KTrace]')) {
+          const logLine = document.createElement('div');
+          logLine.textContent = new Date().toISOString().substring(11, 19) + ' ' + message;
+          logElement.appendChild(logLine);
+          logElement.scrollTop = logElement.scrollHeight;
+        }
+      };
+
+      // 绑定按钮事件
+      document.getElementById('btn-track-event').addEventListener('click', function() {
+        window.ktrace.track('button_click', {
+          buttonId: 'btn-track-event',
+          buttonName: '追踪事件'
+        });
+      });
+
+      document.getElementById('btn-track-page').addEventListener('click', function() {
+        window.ktrace.trackPageView('demo_page', {
+          referrer: document.referrer,
+          title: document.title
+        });
+      });
+
+      document.getElementById('btn-identify').addEventListener('click', function() {
+        const userId = 'user_' + Math.floor(Math.random() * 10000);
+        window.ktrace.identify(userId, {
+          level: 'free',
+          registrationDate: new Date().toISOString()
+        });
+      });
+
+      document.getElementById('btn-js-error').addEventListener('click', function() {
+        try {
+          // 故意产生一个错误
+          const obj = null;
+          obj.nonExistentMethod();
+        } catch (error) {
+          window.ktrace.trackError(error, {
+            source: 'demo'
+          });
+        }
+      });
+
+      document.getElementById('btn-promise-error').addEventListener('click', function() {
+        // 产生一个未处理的Promise拒绝
+        new Promise((resolve, reject) => {
+          reject(new Error('演示Promise错误'));
+        });
+      });
+
+      document.getElementById('btn-ajax-error').addEventListener('click', function() {
+        // 发起一个失败的AJAX请求
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://nonexistent-domain-123456.com', true);
+        xhr.send();
+      });
+
+      document.getElementById('btn-clear-log').addEventListener('click', function() {
+        logElement.innerHTML = '';
+      });
+      
+      // 添加欢迎日志
+      console.log('[KTrace] 演示页面已初始化');
+    }
+    
+    // 开始等待KTrace加载
+    waitForKTrace();
+  </script>
+</body>
+</html> 

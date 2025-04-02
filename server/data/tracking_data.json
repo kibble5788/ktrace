@@ -1,0 +1,143 @@
+[
+  [
+    {
+      "id": "a5481a9c-2081-4c9b-9b18-07314839e1a7",
+      "type": "custom",
+      "name": "page_load",
+      "timestamp": 1743591250285,
+      "properties": {
+        "type": "page_view",
+        "url": "http://localhost:9000/",
+        "title": "KTrace埋点SDK演示",
+        "referrer": "http://localhost:9000/"
+      },
+      "sessionId": "e489011c-51da-4970-88dd-2a3bf12d22e3",
+      "deviceInfo": {
+        "os": "Android",
+        "osVersion": "6.0",
+        "browser": "Chrome",
+        "browserVersion": "134.0.0.0",
+        "screenWidth": 400,
+        "screenHeight": 704,
+        "viewportWidth": 400,
+        "viewportHeight": 704,
+        "network": "4g"
+      }
+    }
+  ],
+  {
+    "receivedAt": "2025-04-02T10:57:19.760Z"
+  },
+  {
+    "receivedAt": "2025-04-02T10:59:12.472Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:00:32.243Z"
+  },
+  [
+    {
+      "id": "fbfd284a-a33c-42c4-a30a-f0378d43d3b1",
+      "type": "custom",
+      "name": "page_load",
+      "timestamp": 1743591632983,
+      "properties": {
+        "type": "page_view",
+        "url": "http://localhost:9000/",
+        "title": "KTrace埋点SDK演示",
+        "referrer": "http://localhost:9000/"
+      },
+      "sessionId": "5f2452ff-1b76-4c40-8ef4-817f7378f2e7",
+      "deviceInfo": {
+        "os": "Android",
+        "osVersion": "6.0",
+        "browser": "Chrome",
+        "browserVersion": "134.0.0.0",
+        "screenWidth": 400,
+        "screenHeight": 704,
+        "viewportWidth": 400,
+        "viewportHeight": 704,
+        "network": "4g"
+      }
+    }
+  ],
+  {
+    "receivedAt": "2025-04-02T11:03:18.581Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:04:19.282Z"
+  },
+  [
+    {
+      "id": "385de511-f64c-4478-81d5-670a030102f1",
+      "type": "custom",
+      "name": "page_load",
+      "timestamp": 1743591860010,
+      "properties": {
+        "type": "page_view",
+        "url": "http://localhost:9000/",
+        "title": "KTrace埋点SDK演示",
+        "referrer": "http://localhost:9000/"
+      },
+      "sessionId": "597fb196-ba24-489f-b9db-84eeb1ebb29e",
+      "deviceInfo": {
+        "os": "Android",
+        "osVersion": "6.0",
+        "browser": "Chrome",
+        "browserVersion": "134.0.0.0",
+        "screenWidth": 400,
+        "screenHeight": 704,
+        "viewportWidth": 400,
+        "viewportHeight": 704,
+        "network": "4g"
+      }
+    }
+  ],
+  {
+    "receivedAt": "2025-04-02T11:05:30.623Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:05:37.581Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:44:12.725Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:44:18.466Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:44:48.534Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:44:54.598Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:45:18.171Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:45:23.899Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:45:42.802Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:45:48.542Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:51:41.508Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:51:47.247Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:56:22.244Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:56:41.746Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:56:47.490Z"
+  },
+  {
+    "receivedAt": "2025-04-02T11:56:52.491Z"
+  }
+]
